@@ -1,8 +1,9 @@
 from selenium import webdriver
-import unittest
+#import unittest
+from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 
-class NewVistorTest(unittest.TestCase):
+class NewVistorTest(LiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -17,9 +18,9 @@ class NewVistorTest(unittest.TestCase):
 		self.assertIn(row_text, [row.text for row in rows])
 
 	def test_can_start_a_list_and_retrieve_it_later(self):
-		# Edith has heard about a cool new online to-do app. She goes
-		# to check out its homepage
-		self.browser.get('http://localhost:8000')
+		# Edith has heard about a cool new online to-do app. She goes to check out its homepage
+		# self.browser.get('http://localhost:8000') This hard coding is used by unit test 
+		self.browser.get(self.live_server_url)
 
 		# She notices the page title and header mention to-do lists
 		self.assertIn('To-Do', self.browser.title)
@@ -61,6 +62,8 @@ class NewVistorTest(unittest.TestCase):
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
+
+
 		self.fail('Finish the test')
 
 # The page updates again, and now shows both items on her list
@@ -73,5 +76,5 @@ class NewVistorTest(unittest.TestCase):
 
 # Satisfied, she goes back to sleep
 
-if __name__ == '__main__':
-	unittest.main(warnings='ignore')
+#if __name__ == '__main__':
+	#unittest.main(warnings='ignore')
