@@ -1,0 +1,14 @@
+description "Gunicorn server for webserver"
+
+start on net-device-up
+stop on shutdown
+
+# restart the process automatically if it crashes
+respawn
+
+setuid lists_user
+
+chdir /home/lists_user/sites/webserver\:80/source
+exec ../virtualenv/bin/gunicorn \
+     --bind unix:/tmp/webserver.socket \
+     superlists.wsgi:application
